@@ -3,5 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "AngularComponentsLib": {
+      "projectType": "library",
+      "root": "projects/angular-components-lib",
+      "sourceRoot": "projects/angular-components-lib/src",
+      "prefix": "acl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/angular-components-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/angular-components-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/angular-components-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-components-lib/src/test.ts",
+            "tsConfig": "projects/angular-components-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-components-lib/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "AngularComponentsLib"
 }
