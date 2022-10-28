@@ -23,11 +23,12 @@ jobs:
         run: |
             pwd             
             npm ci
-            npm build
-            ls -lrt
+            npm run-script build
+            ls -alrt
             cd projects/angular-components-lib
             pwd
-            ls -lrt
+            ls -alrt
+            find . -name *.tgz
             npm pack
 
   # publish-gpr:
