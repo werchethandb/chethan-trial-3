@@ -1,12 +1,13 @@
 {
   "name": "ghplibrary-workspace",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "semantic-release": "semantic-release"
   },
   "private": true,
   "dependencies": {
@@ -36,5 +37,9 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-packagr": "^12.1.1",
     "typescript": "~4.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/werchethandb/chethan-trial-3.git"
   }
 }
