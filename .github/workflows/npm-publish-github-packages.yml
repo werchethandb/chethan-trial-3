@@ -18,33 +18,40 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          
-      - name: experiment
+          registry-url: https://npm.pkg.github.com/
+          scope: '@werchethandb'
+      - name: test-build
         run: |
             pwd             
             npm ci
             npm run-script build
             ls -alrt
-            cd projects/angular-components-lib
+            cd dist/angular-components-lib
             pwd
             ls -alrt
             find . -name *.tgz
             npm pack
 
-  # publish-gpr:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #   if: ${{ github.ref == 'refs/heads/main' }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14
-  #         registry-url: https://npm.pkg.github.com/
-  #     - run: npm ci
-  #     - run: npm publish
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          registry-url: https://npm.pkg.github.com/
+          scope: '@werchethandb'
+      - run: |           
+            npm ci                          # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+            npm run-script build            # builds the angular library
+            cd dist/angular-components-lib  # goto dist/{library-name} to create the package
+            npm pack                        # create compressed package artifact
+            npm publish                     # publish the package 
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
