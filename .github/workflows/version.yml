@@ -19,4 +19,5 @@ jobs:
           git config --global user.email 'chethan.balakrishna@werner.com'
           cd projects/angular-components-lib
       - run: npm version patch -m "[RELEASE] %s"
-      - run: git push "https://${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}" "${{ github.head_ref }}"
+      - run: git config --list
+      - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
