@@ -15,10 +15,11 @@ jobs:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - run: |
-          git config --global user.name 'werchethandb'
-          git config --global user.email 'chethan.balakrishna@werner.com'
+          npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+          npm run-script build                 # builds the angular library
           cd projects/angular-components-lib
-          npm version patch
-          git add .         
-          git commit -m '[RELEASE] Bumped version'
+          npm version patch -m "[RELEASE] %s"
+          # npm version patch
+          # git add .         
+          # git commit -m '[RELEASE] Bumped version'
       - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
