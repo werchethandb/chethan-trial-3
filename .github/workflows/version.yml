@@ -18,6 +18,6 @@ jobs:
           git config --global user.name 'werchethandb'
           git config --global user.email 'chethan.balakrishna@werner.com'
           cd projects/angular-components-lib
-      - run: npm version patch -m "[RELEASE] %s"
+          npm version patch -m "[RELEASE] %s"
       - run: git config --list
       - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
