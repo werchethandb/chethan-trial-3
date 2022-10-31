@@ -1,4 +1,7 @@
-name: Deploy
+# This script gets triggered if there is [Release] in the commit message to master
+# Currently [Release] is added as part of version.yml script
+
+name: Publish/ Deploy
 
 on:
   push:

@@ -10,17 +10,35 @@ jobs:
     runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
+      - name: Update package version type - major
+        if: "contains(github.event.head_commit.message, 'MAJOR')"
+        env:
+          BUMP_VERSION_TYPE: major
+
+      - name: Update package version type - minor
+        if: "contains(github.event.head_commit.message, 'MINOR')"
+        env:
+          BUMP_VERSION_TYPE: minor
+
+      - name: Update package version type - major, minor or patch
+        if: "contains(github.event.head_commit.message, 'PATCH')"
+        env:
+          BUMP_VERSION_TYPE: patch
+
+      - name: Checkout code repo
+        if: ${{ $BUMP_VERSION_TYPE == 'major' || $BUMP_VERSION_TYPE == 'minor' || $BUMP_VERSION_TYPE == 'patch' }}
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
+      - name: build and publish
       - run: |
           npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build                 # builds the angular library
           git config --global user.name 'testUser'
-          git config --global user.email 'test.user@werner.com'
+          git config --global user.email 'test.user@gmail.com'
           cd projects/angular-components-lib
           npm version patch
           git add .         
           git commit -m '[RELEASE] Bumped version'
-      - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
