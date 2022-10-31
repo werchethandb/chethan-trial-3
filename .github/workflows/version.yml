@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - run: git config --global user.name 'Test from Instance'
-      - run: git config --global user.email 'testFromInstance@gmail.com'
+      - run: git config --global user.name 'Test from workflow'
+      - run: git config --global user.email 'testFromWrkflw@gmail.com'
       - run: |
           cd projects/angular-components-lib
           npm version patch -m "[RELEASE] %s"
