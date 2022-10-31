@@ -16,6 +16,7 @@ jobs:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
           scope: "@werchethandb"
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - run: |
           npm ci                          # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build            # builds the angular library
