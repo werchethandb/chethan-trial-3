@@ -12,16 +12,19 @@ jobs:
     steps:
       - name: Update package version type - major
         if: "contains(github.event.head_commit.message, 'MAJOR')"
+        run: echo for 'MAJOR'
         env:
           BUMP_VERSION_TYPE: major
 
       - name: Update package version type - minor
         if: "contains(github.event.head_commit.message, 'MINOR')"
+        run: echo for 'MINOR'
         env:
           BUMP_VERSION_TYPE: minor
 
       - name: Update package version type - major, minor or patch
         if: "contains(github.event.head_commit.message, 'PATCH')"
+        run: echo for 'MINOR'
         env:
           BUMP_VERSION_TYPE: patch
 
@@ -38,7 +41,7 @@ jobs:
           git config --global user.name 'testUser'
           git config --global user.email 'test.user@gmail.com'
           cd projects/angular-components-lib
-          npm version patch
+          npm version $BUMP_VERSION_TYPE
           git add .         
           git commit -m '[RELEASE] Bumped version'
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
