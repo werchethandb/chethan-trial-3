@@ -19,5 +19,5 @@ jobs:
           git config --global user.email 'chethan.balakrishna@werner.com'
           cd projects/angular-components-lib
           npm version patch -m "[RELEASE] %s"
-      - run: git config --list
+      - run: npm version patch -m "[RELEASE] %s"
       - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
