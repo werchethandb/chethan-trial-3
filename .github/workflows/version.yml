@@ -17,6 +17,8 @@ jobs:
       - run: |
           npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build                 # builds the angular library
+          git config --global user.name 'testUser'
+          git config --global user.email 'test.user@werner.com'
           cd projects/angular-components-lib
           npm version patch
           git add .         
