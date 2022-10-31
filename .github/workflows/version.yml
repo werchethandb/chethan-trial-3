@@ -27,7 +27,7 @@ jobs:
 
       - name: Checkout code repo
         if: ${{ $BUMP_VERSION_TYPE == 'major' || $BUMP_VERSION_TYPE == 'minor' || $BUMP_VERSION_TYPE == 'patch' }}
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
