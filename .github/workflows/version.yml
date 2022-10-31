@@ -19,5 +19,7 @@ jobs:
           git config --global user.email 'chethan.balakrishna@werner.com'
           cd projects/angular-components-lib
           npm version patch -m "[RELEASE] %s"
+          git add . 
+          git commit -am "bumped the library version to $npm_package_version"
       - run: npm version patch -m "[RELEASE] %s"
       - run: git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
