@@ -11,20 +11,20 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - name: Update package version type - major
+        run: echo test for 'MAJOR'
         if: "contains(github.event.head_commit.message, 'MAJOR')"
-        run: echo for 'MAJOR'
         env:
           BUMP_VERSION_TYPE: major
 
       - name: Update package version type - minor
+        run: echo testfor 'MINOR'
         if: "contains(github.event.head_commit.message, 'MINOR')"
-        run: echo for 'MINOR'
         env:
           BUMP_VERSION_TYPE: minor
 
       - name: Update package version type - major, minor or patch
+        run: echo test for 'PATCH'
         if: "contains(github.event.head_commit.message, 'PATCH')"
-        run: echo for 'MINOR'
         env:
           BUMP_VERSION_TYPE: patch
 
