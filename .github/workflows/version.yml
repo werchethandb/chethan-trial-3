@@ -10,26 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
-      - name: Update package version type - major
-        run: echo test for 'MAJOR'
-        # if: "contains(github.event.head_commit.message, 'MAJOR')"
-        # env:
-        #   BUMP_VERSION_TYPE: major
+      # - name: Update package version type - major
+      #   run: echo test for 'MAJOR'
+      #   # if: "contains(github.event.head_commit.message, 'MAJOR')"
+      #   # env:
+      #   #   BUMP_VERSION_TYPE: major
 
-      - name: Update package version type - minor
-        run: echo testfor 'MINOR'
-        # if: "contains(github.event.head_commit.message, 'MINOR')"
-        # env:
-        #   BUMP_VERSION_TYPE: minor
+      # - name: Update package version type - minor
+      #   run: echo testfor 'MINOR'
+      #   # if: "contains(github.event.head_commit.message, 'MINOR')"
+      #   # env:
+      #   #   BUMP_VERSION_TYPE: minor
 
-      - name: Update package version type - patch
-        run: echo test for 'PATCH'
-        # if: "contains(github.event.head_commit.message, 'PATCH')"
-        # env:
-        #   BUMP_VERSION_TYPE: patch
+      # - name: Update package version type - patch
+      #   run: echo test for 'PATCH'
+      #   # if: "contains(github.event.head_commit.message, 'PATCH')"
+      #   # env:
+      #   #   BUMP_VERSION_TYPE: patch
 
       - name: Checkout code repo
-        if: ${{ $BUMP_VERSION_TYPE == 'major' || $BUMP_VERSION_TYPE == 'minor' || $BUMP_VERSION_TYPE == 'patch' }}
+        # if: ${{ $BUMP_VERSION_TYPE == 'major' || $BUMP_VERSION_TYPE == 'minor' || $BUMP_VERSION_TYPE == 'patch' }}
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
