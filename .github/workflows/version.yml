@@ -34,12 +34,7 @@ jobs:
         run: |
           echo "if condition failed"
 
-      # - name: checkout code base
-      #   uses: actions/checkout@v3
-      #   with:
-      #     token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
-      # - name: bump the pakage version
+      # - name: bump the version
       #   if: "${{ env.VERSION_TYPE }} == 'major' || ${{ env.VERSION_TYPE }} == 'minor' || ${{ env.VERSION_TYPE }} == 'patch'"
       #   run: |
       #     npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
