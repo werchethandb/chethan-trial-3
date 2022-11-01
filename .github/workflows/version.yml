@@ -27,17 +27,22 @@ jobs:
         env:
           VERSION_TYPE: MINOR
 
-      - name: check for PATCH version bump type
-        if: "contains(github.event.head_commit.message, '[PATCH]')"
-        # run: echo "$VERSION_TYPE test passed"
-        run: |
-          export VERSION_TYPE=PATCH
-          echo "::set-env name=VERSION_TYPE::$VERSION_TYPE"
-        # env:
-        #   VERSION_TYPE: PATCH
+      # - name: check for PATCH version bump type
+      #   if: "contains(github.event.head_commit.message, '[PATCH]')"
+      #   # run: echo "$VERSION_TYPE test passed"
+      #   run: |
+      #     export VERSION_TYPE=PATCH
+      #     echo "::set-env name=VERSION_TYPE::$VERSION_TYPE"
+      #   # env:
+      #   #   VERSION_TYPE: PATCH
 
-      - name: selected bump type
-        run: echo $VERSION_TYPE
+      # - name: selected bump type
+      #   run: echo $VERSION_TYPE
+
+      - run: |
+          export FOO=bar
+          echo "::set-env name=FOO::$FOO"
+      - run: echo $FOO
 
       # - name: build and bump the version
       #   run: |
