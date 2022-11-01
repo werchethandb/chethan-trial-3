@@ -34,7 +34,7 @@ jobs:
           VERSION_TYPE: PATCH
 
       - name: selected bump type
-        run: echo "version bump type $VERSION_TYPE"
+        run: echo 'version bump type {{ env.VERSION_TYPE }}'
 
       # - name: build and bump the version
       #   run: |
