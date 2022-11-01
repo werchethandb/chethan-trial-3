@@ -34,6 +34,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: checkout code base and bump the version
+        if: ${{ env.VERSION_TYPE == 'major' || env.VERSION_TYPE == 'minor' || env.VERSION_TYPE == 'patch' }}
         run: |
           npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build                 # builds the angular library
