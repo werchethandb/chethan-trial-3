@@ -17,24 +17,21 @@ jobs:
 
       - name: check for MAJOR version bump type
         if: "contains(github.event.head_commit.message, '[MAJOR]')"
-        run: echo "MAJOR test passed"
+        run: echo "$VERSION_TYPE test passed"
         env:
           VERSION_TYPE: MAJOR
 
       - name: check for MINOR version bump type
         if: "contains(github.event.head_commit.message, '[MINOR]')"
-        run: echo "MINOR test passed"
+        run: echo "$VERSION_TYPE test passed"
         env:
           VERSION_TYPE: MINOR
 
       - name: check for PATCH version bump type
         if: "contains(github.event.head_commit.message, '[PATCH]')"
-        run: echo "PATCH test passed"
+        run: echo "$VERSION_TYPE test passed"
         env:
           VERSION_TYPE: PATCH
-
-      - name: selected bump type
-        run: echo 'version bump type {{ env.VERSION_TYPE }}'
 
       # - name: build and bump the version
       #   run: |
