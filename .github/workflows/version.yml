@@ -39,12 +39,12 @@ jobs:
 
       - id: DetermineVersionType
         name: versioning type
-        run: echo "versiontype=undefined" >> $GITHUB_OUTPUT
+        run: echo "versiontype=${{ env.VERSION_TYPE }}" >> $GITHUB_OUTPUT
 
   bump_pkg_version:
     runs-on: ubuntu-latest
     needs: version_type_finder
-    if: ${{ needs.version_type_finder.vtype != 'undefined' }}
+    if: ${{ needs.version_type_finder.outputs.vtype != 'undefined' }}
     steps:
       - name: checkout code base
         uses: actions/checkout@v3
@@ -73,7 +73,6 @@ jobs:
         run: npm ci
 
       - name: build and bump the version
-        if: ${{ needs.version_type_finder.vtype != 'undefined' }}
         run: |
           npm run-script build                 # builds the angular library
           git config --global user.name 'werchethandb'
