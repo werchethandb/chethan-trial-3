@@ -39,7 +39,7 @@ jobs:
 
       - id: DetermineVersionType
         name: versioning type
-        run: echo "versiontype=${{ env.VERSION_TYPE }}" >> $GITHUB_OUTPUT
+        run: echo "versiontype=undefined" >> $GITHUB_OUTPUT
 
   bump_pkg_version:
     runs-on: ubuntu-latest
