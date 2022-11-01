@@ -12,6 +12,9 @@ on:
 jobs:
   version_type_finder:
     runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      versiontype: ${{ steps.DetermineVersionType.outputs.version }}
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - name: check for MAJOR version
@@ -34,25 +37,49 @@ jobs:
         run: |
           echo "VERSION_TYPE=undefined" >> $GITHUB_ENV
 
-      - name: versioning type
+      - id: DetermineVersionType
+        name: versioning type
         run: |
-          echo "Bump version type is ${{ env.VERSION_TYPE }}"
+          echo "version=${{ env.VERSION_TYPE }}" >> $GITHUB_OUTPUT
 
+  bump_pkg_version:
+    runs-on: ubuntu-latest
+    needs: version_type_finder
+    if: ${{ needs.version_type_finder.versiontype != 'undefined' }}
+    steps:
       - name: checkout code base
-        if: ${{ env.VERSION_TYPE != 'undefined' }}
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
+      - name: cache node modules
+        id: cache_node_modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: bump the version
-        if: ${{ env.VERSION_TYPE != 'undefined' }}
+        run: echo 'Start versioning'
+
+      - name: install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: build and bump the version
         run: |
-          npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build                 # builds the angular library
           git config --global user.name 'werchethandb'
           git config --global user.email 'chethan.balakrishna@werner.com'
           cd projects/angular-components-lib
-          npm version ${{ env.VERSION_TYPE }}
+          npm version ${{ needs.version_type_finder.versiontype }}
           git add .
           git commit -m '[RELEASE] Bumped version'
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
