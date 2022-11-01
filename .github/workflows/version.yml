@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "VERSION_TYPE=patch" >> $GITHUB_ENV
 
-      - name: Selected versin type
+      - name: select versioning type
         id: step_two
         run: |
           echo "Bump version type is ${{ env.VERSION_TYPE }}"
@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - name: bump the version
+      - name: bump the pakage version
         if: "${{ env.VERSION_TYPE }} == 'major' || ${{ env.VERSION_TYPE }} == 'minor' || ${{ env.VERSION_TYPE }} == 'patch'"
         run: |
           npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
