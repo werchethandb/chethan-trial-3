@@ -6,52 +6,48 @@ on:
       - main
 
 jobs:
-  version:
+  version_type_finder:
     runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
       - name: check for MAJOR version bump type
         if: "contains(github.event.head_commit.message, '[MAJOR]')"
-        run: echo "$VERSION_TYPE test passed"
-        env:
-          VERSION_TYPE: MAJOR
+        run: |
+          echo "VERSION_TYPE=MAJOR" >> $GITHUB_ENV
 
       - name: check for MINOR version bump type
         if: "contains(github.event.head_commit.message, '[MINOR]')"
-        run: echo "$VERSION_TYPE test passed"
-        env:
-          VERSION_TYPE: MINOR
+        run: |
+          echo "VERSION_TYPE=MINOR" >> $GITHUB_ENV
 
-      # - name: check for PATCH version bump type
-      #   if: "contains(github.event.head_commit.message, '[PATCH]')"
-      #   # run: echo "$VERSION_TYPE test passed"
-      #   run: |
-      #     export VERSION_TYPE=PATCH
-      #     echo "::set-env name=VERSION_TYPE::$VERSION_TYPE"
-      #   # env:
-      #   #   VERSION_TYPE: PATCH
+      - name: check for PATCH version bump type
+        if: "contains(github.event.head_commit.message, '[PATCH]')"
+        run: |
+          echo "VERSION_TYPE=PATCH" >> $GITHUB_ENV
 
-      # - name: selected bump type
-      #   run: echo $VERSION_TYPE
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "Version type is ${{ env.VERSION_TYPE }}"
 
-      - run: |
-          export FOO=bar
-          echo "::set-env name=FOO::$FOO"
-      - run: echo $FOO
+  # publisher:
+  #   runs-on: ubuntu-latest
+  #   needs: version_type_finder
+  #   if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      # - name: build and bump the version
-      #   run: |
-      #     npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
-      #     npm run-script build                 # builds the angular library
-      #     git config --global user.name 'werchethandb'
-      #     git config --global user.email 'chethan.balakrishna@werner.com'
-      #     cd projects/angular-components-lib
-      #     npm version patch
-      #     git add .
-      #     git commit -m '[RELEASE] Bumped version'
-      #     git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+  #     - name: build and bump the version
+  #       run: |
+  #         npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+  #         npm run-script build                 # builds the angular library
+  #         git config --global user.name 'werchethandb'
+  #         git config --global user.email 'chethan.balakrishna@werner.com'
+  #         cd projects/angular-components-lib
+  #         npm version patch
+  #         git add .
+  #         git commit -m '[RELEASE] Bumped version'
+  #         git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
