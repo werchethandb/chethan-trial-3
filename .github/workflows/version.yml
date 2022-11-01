@@ -10,44 +10,40 @@ jobs:
     runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
-      - name: check for MAJOR version bump type
+      - name: check for MAJOR version
         if: "contains(github.event.head_commit.message, '[MAJOR]')"
         run: |
           echo "VERSION_TYPE=MAJOR" >> $GITHUB_ENV
 
-      - name: check for MINOR version bump type
+      - name: check for MINOR version
         if: "contains(github.event.head_commit.message, '[MINOR]')"
         run: |
           echo "VERSION_TYPE=MINOR" >> $GITHUB_ENV
 
-      - name: check for PATCH version bump type
+      - name: check for PATCH version
         if: "contains(github.event.head_commit.message, '[PATCH]')"
         run: |
           echo "VERSION_TYPE=PATCH" >> $GITHUB_ENV
 
-      - name: Use the value
+      - name: Selected versin type
         id: step_two
         run: |
-          echo "Version type is ${{ env.VERSION_TYPE }}"
+          echo "Bump version type is ${{ env.VERSION_TYPE }}"
 
-  # publisher:
-  #   runs-on: ubuntu-latest
-  #   needs: version_type_finder
-  #   if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - name: checkout code base
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-  #     - name: build and bump the version
-  #       run: |
-  #         npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
-  #         npm run-script build                 # builds the angular library
-  #         git config --global user.name 'werchethandb'
-  #         git config --global user.email 'chethan.balakrishna@werner.com'
-  #         cd projects/angular-components-lib
-  #         npm version patch
-  #         git add .
-  #         git commit -m '[RELEASE] Bumped version'
-  #         git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+      - name: bump the version
+        if: "${{ env.VERSION_TYPE }} == '[MAJOR]' || ${{ env.VERSION_TYPE }} == '[MINOR]' || ${{ env.VERSION_TYPE }} == '[PATCH]'"
+        run: |
+          npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+          npm run-script build                 # builds the angular library
+          git config --global user.name 'werchethandb'
+          git config --global user.email 'chethan.balakrishna@werner.com'
+          cd projects/angular-components-lib
+          npm version ${{ env.VERSION_TYPE }}
+          git add .
+          git commit -m '[RELEASE] Bumped version'
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
