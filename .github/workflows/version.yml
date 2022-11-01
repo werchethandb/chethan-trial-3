@@ -66,7 +66,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: bump the version
-        run: echo 'Start versioning ${{ needs.version_type_finder.vtype }}'
+        run: echo 'Start package versioning for ${{ needs.version_type_finder.vtype }}'
 
       - name: install dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
