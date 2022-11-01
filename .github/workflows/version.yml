@@ -13,17 +13,17 @@ jobs:
       - name: check for MAJOR version
         if: "contains(github.event.head_commit.message, '[MAJOR]')"
         run: |
-          echo "VERSION_TYPE=MAJOR" >> $GITHUB_ENV
+          echo "VERSION_TYPE=major" >> $GITHUB_ENV
 
       - name: check for MINOR version
         if: "contains(github.event.head_commit.message, '[MINOR]')"
         run: |
-          echo "VERSION_TYPE=MINOR" >> $GITHUB_ENV
+          echo "VERSION_TYPE=minor" >> $GITHUB_ENV
 
       - name: check for PATCH version
         if: "contains(github.event.head_commit.message, '[PATCH]')"
         run: |
-          echo "VERSION_TYPE=PATCH" >> $GITHUB_ENV
+          echo "VERSION_TYPE=patch" >> $GITHUB_ENV
 
       - name: Selected versin type
         id: step_two
@@ -36,7 +36,7 @@ jobs:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: bump the version
-        if: "${{ env.VERSION_TYPE }} == '[MAJOR]' || ${{ env.VERSION_TYPE }} == '[MINOR]' || ${{ env.VERSION_TYPE }} == '[PATCH]'"
+        if: "${{ env.VERSION_TYPE }} == 'major' || ${{ env.VERSION_TYPE }} == 'minor' || ${{ env.VERSION_TYPE }} == 'patch'"
         run: |
           npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
           npm run-script build                 # builds the angular library
