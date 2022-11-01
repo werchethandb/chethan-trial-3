@@ -22,7 +22,7 @@ jobs:
         env:
           BUMP_VERSION_TYPE: minor
 
-      - name: Update package version type - major, minor or patch
+      - name: Update package version type - patch
         run: echo test for 'PATCH'
         if: "contains(github.event.head_commit.message, 'PATCH')"
         env:
