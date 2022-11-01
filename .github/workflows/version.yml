@@ -15,14 +15,18 @@ jobs:
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - name: build and bump the version
-        run: |
-          npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
-          npm run-script build                 # builds the angular library
-          git config --global user.name 'werchethandb'
-          git config --global user.email 'chethan.balakrishna@werner.com'
-          cd projects/angular-components-lib
-          npm version patch
-          git add .         
-          git commit -m '[RELEASE] Bumped version'
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+      - name: check for version bump type
+        if: "contains(github.event.head_commit.message, '[PATCH]')"
+        run: echo "PATCH test passed"
+
+      # - name: build and bump the version
+      #   run: |
+      #     npm ci                               # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+      #     npm run-script build                 # builds the angular library
+      #     git config --global user.name 'werchethandb'
+      #     git config --global user.email 'chethan.balakrishna@werner.com'
+      #     cd projects/angular-components-lib
+      #     npm version patch
+      #     git add .
+      #     git commit -m '[RELEASE] Bumped version'
+      #     git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
