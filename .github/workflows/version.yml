@@ -41,11 +41,11 @@ jobs:
         name: versioning type
         run: echo "versiontype=${{ env.VERSION_TYPE }}" >> $GITHUB_OUTPUT
 
-      - name: check for UNDEFINED version
+      - name: Fail step if its UNDEFINED version type
         if: ${{ env.VERSION_TYPE == 'undefined' }}
         run: |
-          echo "Failing further steps since there wasn't a build version which was determined."
-          echo "If the intention was to bump the pjg version then please make sure to tag (ex: [PATCH]) your commit message as per instructions from 'commit instructions' under readme"  
+          echo "Failing further steps since there wasn't a build version type which was determined."
+          echo "If the intention was to bump the pkg version then make sure to tag (ex: [PATCH]) your PR commit message as per 'commit instructions' under readme"  
           exit 1 # fails the job
 
   bump_pkg_version:
