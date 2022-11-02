@@ -19,8 +19,27 @@ jobs:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
           scope: "@werchethandb"
-      - run: |
-          npm ci                          # This command is similar to npm install, except it's used for continuous integration - uses package-lock.json
+
+      - name: cache node modules
+        id: cache_node_modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: build and pubish package
+        run: |
           npm run-script build            # builds the angular library
           cd dist/angular-components-lib  # goto dist/{library-name} to create the package
           npm pack                        # create compressed package artifact
