@@ -55,8 +55,6 @@ jobs:
     steps:
       - name: checkout code base
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: cache node modules
         id: cache_node_modules
@@ -89,3 +87,5 @@ jobs:
           git add .
           git commit -m '[RELEASE] Bumped version'
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
