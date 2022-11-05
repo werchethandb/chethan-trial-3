@@ -45,4 +45,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   
 - At this point in time, we are not considering any pre-release versioning handled by github pipeline.
 
-- **NOTE:** A pull request without any above mentioned `tags` will fail the pipeline.
+- **NOTE:** A pull request without any above mentioned `tags` will fail the pipeline
