@@ -55,6 +55,8 @@ jobs:
     steps:
       - name: checkout code base
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: cache node modules
         id: cache_node_modules
